@@ -125,10 +125,10 @@ void size_check(short& n, short& m, const short& lim)
 			std::cin.clear();
 
 		std::cin.ignore(32767, '\n');
-		if (n <= 0 || m <= 0 || std::cin.fail())
-			std::cout << "Длина и ширина холла должны быть больше 0!\n";
+		if (n <= 0 || m <= 0 || n == 32767 || m == 32767)
+			std::cout << "Длина и ширина холла должны быть больше 0 и меньше 32767!\n";
 
-	} while (n <= 0 || m <= 0 || std::cin.fail());
+	} while (n <= 0 || m <= 0 || n == 32767 || m == 32767);
 }
 
 void radius_check(short& r, const short& lim)
@@ -141,10 +141,10 @@ void radius_check(short& r, const short& lim)
 			std::cin.clear();
 
 		std::cin.ignore(32767, '\n');
-		if (r <= 0 || std::cin.fail())
-			std::cout << "Радиус покрытия должен быть больше 0!\n";
+		if (r <= 0 || r == 32767)
+			std::cout << "Радиус покрытия должен быть больше 0 и меньше 32767!\n";
 
-	} while (r <= 0 || std::cin.fail());
+	} while (r <= 0 || r == 32767);
 }
 
 void decide_check(short& decide, const short& n, const short& m)
@@ -294,12 +294,14 @@ void calculate_signal_power(List& list, const float& x, const float& y, const sh
 	Host* host{ list.begin };
 	while (host != nullptr)
 	{
-		float vector_x{ host->x - x };
-		float vector_y{ host->y - y };
-		float distance{ sqrt(pow(vector_x, 2) + pow(vector_y, 2)) };
-
 		if (host->is_active == '1')
+		{
+			float vector_x{ host->x - x };
+			float vector_y{ host->y - y };
+			float distance{ sqrt(pow(vector_x, 2) + pow(vector_y, 2)) };
 			host->signal_power = 100 - (distance * 100 / r);
+		}
+			
 
 		host = host->next;
 	}
