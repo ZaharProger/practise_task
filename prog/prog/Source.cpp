@@ -64,6 +64,9 @@ void show_map(List&, const float&, const float&, const short&, const short&, con
 //Получение информации о точке доступа
 void get_info(Host*);
 
+//Освобождение выделенной памяти
+void clear(List&);
+
 int main()
 {
 	setlocale(0, "");
@@ -110,6 +113,8 @@ int main()
 	decide_check(decide, 0, 1);
 	if (decide == 1)
 		show_map(list, x, y, length, width, radius);
+
+	clear(list);
 
 	system("pause");
 	return 0;
@@ -447,6 +452,18 @@ void get_info(Host* host)
 	std::cout << std::setw(17) << std::setprecision(1) << std::fixed << host->y;
 	std::cout << std::setw(15) << std::setprecision(2) << host->signal_power << "%\n";
 	std::cout << "--------------------------------------------\n";
+}
+
+void clear(List& list)
+{
+	Host* host{ list.begin };
+	while (host != nullptr)
+	{
+		Host* temp = host;
+		host = host->next;
+		delete temp;
+	}
+	delete host;
 }
 
 	
